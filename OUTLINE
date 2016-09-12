@@ -1,0 +1,5 @@
+Input: Network as SIF-file
+
+Step 1) Break Network into individual network .net files for each connected component ("ISLANDS") 
+Step 2) For each ISLAND, identify communities via the infoMAP algorithm. 
+Step 3) For each 
