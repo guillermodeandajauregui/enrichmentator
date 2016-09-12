@@ -1,5 +1,17 @@
-Input: Network as SIF-file
+Input: NETWORK as SIF-file
 
-Step 1) Break Network into individual network .net files for each connected component ("ISLANDS") 
-Step 2) For each ISLAND, identify communities via the infoMAP algorithm. 
-Step 3) For each 
+Step 1) Break NETWORK into individual subgraph .net files for each connected component ("ISLANDS") 
+	OUTPUT A) .net files
+Step 2) For each ISLAND, identify COMMUNITIES via the infoMAP algorithm. 
+	OUTPUT B) .map community files
+	OUTPUT C) comm_genelist.txt files
+Step 3) For each COMMUNITY larger than 10 nodes, run Over-Representation Analysis on a set of functional genesets (KEGG, Gene Ontology)...also known generally as PROCESSES 
+	OUTPUT D) enrichment table for each community
+	OUTPUT E) Heatmap for each ISLAND
+	OUTPUT F) Global NETWORK Heatmap for all enriched COMMUNITIES
+	OUTPUT G) COMMUNITY-PROCESS map: a bipartite graph, with nodes representing communities, nodes representing processes, and edges with corrected p-value as weight. 
+Step 4) Data tables to help visualization of information
+	OUTPUT H) GENE DATA TABLE: linking each individual gene in NETWORK to a COMMUNITY 
+	OUTPUT I) COMMUNITY DATA TABLE: Containing number of nodes in each COMMUNITY
+	OUTPUT J) PROCESS DATA TABLE: Containing number of genes in PROCESS
+
