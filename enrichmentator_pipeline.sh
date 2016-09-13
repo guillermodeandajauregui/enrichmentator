@@ -9,7 +9,7 @@ echo $basename
 
 ##take SIF, output ISLANDS
 
-python lib/sif_to_net_islands.py sif
+python lib/sif_to_net_islands.py $sif
 
 ##massage last output to format edible for infoMAP
 
