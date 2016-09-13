@@ -15,7 +15,7 @@ python lib/sif_to_net_islands.py $sif
 
 cd $basename/ISLANDS
 #ls
-lib/sed_pajek.sh 
+sh ../../lib/sed_pajek.sh 
 
 ###Run infomap on ISLANDS IN sif[0]/ISLANDS
 #for i in .net 
