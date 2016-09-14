@@ -6,12 +6,12 @@ def EnrichmentMatrix(path):
   files=glob.glob(path)
   coms = set()
   procs = set()
-  
+
   for filename in files:
       base_datos, fenotipo, isla, comunidad = filename.split('_')
       comunidad = comunidad.split('.')[0]
       f = open(filename, 'r')
-      
+
       title = True
       for linea in f:
           # skip title line
@@ -20,13 +20,16 @@ def EnrichmentMatrix(path):
               continue
 
           (proceso, n_universo,  n_genes, total_hits, expected_hits, observerd_hits, pvalue, adj_pvalue) = linea.split('\t')
+          proceso = proceso.strip('"')
+          adj_pvalue = adj_pvalue.rstrip()
+
           procs.add(proceso)
           coms.add(comunidad)
-          if not ematrix.has_key(proceso):
+          if not proceso in ematrix:
                ematrix[proceso] = dict()
-        
+
           ematrix[proceso][comunidad] = adj_pvalue
-      
+
       f.close()
 
   return ematrix, coms, procs
@@ -35,26 +38,37 @@ def EnrichmentMatrix(path):
 def SaveMatrix(filename, ematrix, coms, procs):
 
   file = open(filename, 'w')
-  
+
+  coms = list(coms)
+  coms.sort()
+  procs = list(procs)
+  procs.sort()
+
   #write header
-  file.write("\t")
   for c in coms:
-      file.write("{}\t".format(c))
-      
+      file.write("\t{}".format(c))
+  file.write("\n")
+
+  #write content
   for p in procs:
-        file.write("{}\t".format(p))
+        file.write("{}".format(p))
+
         for c in coms:
-            if ematrix[p].has_key[c]:
+
+            if c in ematrix[p]:
                 pvalue = ematrix[p][c]
             else:
                 pvalue = 1
-            file.write("{}\t".format(pvalue))
+
+            file.write("\t{}".format(pvalue))
+
+        file.write("\n")
 
   file.close()
-  
 
-  
-dr = sys.argv[1] #shaped as prueba/COMMUNITIES/prueba_I001 
+
+
+dr = sys.argv[1] #shaped as prueba/COMMUNITIES/prueba_I001
 directory = dr
 basename = sys.argv[2]
 #basename = dr.split(sep = "/")[len(dr.split(sep = "/")) -1]
