@@ -1,86 +1,79 @@
 import sys
 import glob
 
-def EnrichmetMatriz(path):
-  dik = {};
+def EnrichmentMatrix(path):
+  ematrix = {};
   files=glob.glob(path)
-  l = []
-
-  for file in files:
-      a = file.split('_')
-      b = a[len(a) - 1]
-      c = b.split('.')
-      f = open(file, 'r')
-      l.append(c[0])
+  coms = set()
+  procs = set()
+  
+  for filename in files:
+      base_datos, fenotipo, isla, comunidad = filename.split('_')
+      comunidad = comunidad.split('.')[0]
+      f = open(filename, 'r')
       
       title = True
-      cadena =  []
       for linea in f:
+          # skip title line
           if title:
               title = False
               continue
-          cadena = linea.split('\t')
-      if cadena and (cadena[0].strip('"')) in dik:
-          dik[cadena[0].strip('"')].append((c[0].strip(),cadena[7].strip()))
-      elif cadena:
-          dik[cadena[0].strip('"')] = [(c[0].strip(),cadena[7].strip())]
+
+          (proceso, n_universo,  n_genes, total_hits, expected_hits, observerd_hits, pvalue, adj_pvalue) = linea.split('\t')
+          procs.add(proceso)
+          coms.add(comunidad)
+          if not ematrix.has_key(proceso):
+               ematrix[proceso] = dict()
+        
+          ematrix[proceso][comunidad] = adj_pvalue
       
-      f.close()      
-#      del(dik['""'])
-      l.sort()
+      f.close()
 
-  return dik,l
+  return ematrix, coms, procs
 
 
-def FileMatrix(filename,diccionario,coms):
-  PosComs = {}
-  M = [[1 for x in range(len(coms)+1)] for x in range(len(diccionario)+1)]
-  k=1
+def SaveMatrix(filename, ematrix, coms, procs):
 
-  M[0][0] = ""
-  for i in coms:
-    M[0][k] = i
-    PosComs[i] = k
-    k=k+1
-    
-  k=1  
-  for e in diccionario:
-    M[k][0] = e
-    for i in diccionario[e]:
-      for j in PosComs:
-          if i[0] == j:
-              M[k][PosComs[j]] = i[1]
-    k=k+1
-    
   file = open(filename, 'w')
-  for i in range(len(M)):
-    for j in range(len(M[0])):
-      file.write("%s\t" % M[i][j])
-    file.write("\n")
-  file.close()  
   
+  #write header
+  file.write("\t")
+  for c in coms:
+      file.write("{}\t".format(c))
+      
+  for p in procs:
+        file.write("{}\t".format(p))
+        for c in coms:
+            if ematrix[p].has_key[c]:
+                pvalue = ematrix[p][c]
+            else:
+                pvalue = 1
+            file.write("{}\t".format(pvalue))
+
+  file.close()
   
+
   
 dr = sys.argv[1] #shaped as prueba/COMMUNITIES/prueba_I001 
 directory = dr
 basename = sys.argv[2]
 #basename = dr.split(sep = "/")[len(dr.split(sep = "/")) -1]
 #filename = sys.argv[2]
-#diccionario,coms = EnrichmetMatriz(path)
-#FileMatrix(filename,diccionario,coms)
+#ematrix, coms, procs = EnrichmentMatrix(path)
+#SaveMatrix(filename,ematrix, coms, procs)
 
 path = directory+'GOBP_*.csv'
-diccionario,coms = EnrichmetMatriz(path)
-FileMatrix(directory+basename+'_GOBP.csv',diccionario,coms)
+ematrix, coms, procs = EnrichmentMatrix(path)
+SaveMatrix(directory+basename+'_GOBP.csv',ematrix, coms, procs)
 
 path = directory+'GOCC_*.csv'
-diccionario,coms = EnrichmetMatriz(path)
-FileMatrix(directory+basename+'_GOCC.csv',diccionario,coms)
+ematrix, coms, procs = EnrichmentMatrix(path)
+SaveMatrix(directory+basename+'_GOCC.csv',ematrix, coms, procs)
 
 path = directory+'GOMF_*.csv'
-diccionario,coms = EnrichmetMatriz(path)
-FileMatrix(directory+basename+'_GOMF.csv',diccionario,coms)
+ematrix, coms, procs = EnrichmentMatrix(path)
+SaveMatrix(directory+basename+'_GOMF.csv',ematrix, coms, procs)
 
 path = directory+'KEGG_*.csv'
-diccionario,coms = EnrichmetMatriz(path)
-FileMatrix(directory+basename+'_KEGG.csv',diccionario,coms)
+ematrix, coms, procs = EnrichmentMatrix(path)
+SaveMatrix(directory+basename+'_KEGG.csv',ematrix, coms, procs)
