@@ -6,6 +6,7 @@ import sys
 ########## SYSTEMS ARGUMENTS
 
 NW = sys.argv[1]
+tamano= sys.argv[2]
 
 ### GRAPH LOADING FUNCTION
 def graphfromsif(sif):
@@ -48,7 +49,8 @@ if not nx.is_connected(G):
         os.makedirs(NOMBRE[0]+"/"+"ISLANDS/")
     #lista_graphs =  sorted(list(nx.connected_component_subgraphs(G)))
     for g in L:
-        comp_name = NOMBRE[0]+"/"+"ISLANDS/"+NOMBRE[0]+"_I"+str(comp_num).zfill(3)+".net"
+        if len(g)>=int(tamano):
+            comp_name = NOMBRE[0]+"/"+"ISLANDS/"+NOMBRE[0]+"_I"+str(comp_num).zfill(3)+".net"
         #comp_name_el = NOMBRE[0]+"/"+"ISLANDS/"+NOMBRE[0]+"_I"+str(comp_num).zfill(2)+".txt"
         nx.write_pajek(G.subgraph(g), path=comp_name, encoding = 'UTF-8')
         #nx.write_weighted_edgelist(G.subgraph(g), path=comp_name_el, encoding = 'UTF-8')

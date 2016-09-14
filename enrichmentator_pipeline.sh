@@ -4,6 +4,7 @@
 ##variables 
 
 sif=$1 
+tamano=$2
 basename=$(echo $sif | cut -d "." -f1)
 echo $basename
 
@@ -15,7 +16,7 @@ mkdir -p $basename/COMMUNITIES
 
 ##take SIF, output ISLANDS
 
-python lib/sif_to_net_islands.py $sif
+python lib/sif_to_net_islands.py $sif $tamano
 
 ##massage last output to format edible for infoMAP
 
@@ -32,18 +33,21 @@ for net in $(ls $basename/ISLANDS/*.net); do
 done
 
 ### Enrichment phase
-####probar analisis infoMAP
+#process infomap outputs to individual listfiles
 for map in $(ls $basename/MAPS/*.map)
   do
 	   echo $map
        mappathbase=$(echo $map | cut -d "." -f1 )
        mapbase2=$(echo $mappathbase | cut -d "/" -f3) 
        mapfile=$(echo $map | cut -d "/" -f3)
-       #echo $mappathbase
-       #echo $mapbase2
-       #echo $mapfile
-       mkdir -p $basename/COMMUNITIES/$mapbase2
+       mkdir -p $basename/COMMUNITIES/$mapbase2 #mapbase2 is ISLAND name (ej pheno_I001)
        dr=$basename/COMMUNITIES/$mapbase2
-       #cp $map $dir
-       python Analisis_Infomap2.py $map $dr/
+       python lib/Analisis_Infomap3.py $map $dr/ $mapbase2
+#run the enrichment algorithms
+##testing
+#      for j in $(ls $dr/*.txt) 
+#      do
+#	  echo $j
+#	  Rscript lib/Enrichmentator.R  $j
+#      done       
 done
