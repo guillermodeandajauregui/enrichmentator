@@ -93,7 +93,7 @@ enrichmentator<-function(x,y,z){
 	resultados_GS_GO_MF_significativos<-resultados_GS_GO_MF[resultados_GS_GO_MF$Adjusted.Pvalue < 0.001,]
 	rownames(resultados_GS_GO_MF_significativos)<-Term(rownames(resultados_GS_GO_MF_significativos))
 	#escribir_tabla
-	nombre_GS_GO_MF<-paste0(z,"comunidad_GS_GO_MF_", nombre_comunidad)
+	nombre_GS_GO_MF<-paste0(z,"GO_MF_", nombre_comunidad)
 	write.table(resultados_GS_GO_MF_significativos, 
 	            file = nombre_GS_GO_MF, 
 	            sep ="\t", 
@@ -112,7 +112,7 @@ enrichmentator<-function(x,y,z){
 	resultados_GS_GO_BP_significativos<-resultados_GS_GO_BP[resultados_GS_GO_BP$Adjusted.Pvalue < 0.001,]
 	rownames(resultados_GS_GO_BP_significativos)<-Term(rownames(resultados_GS_GO_BP_significativos))
 	#escribir_tabla
-	nombre_GS_GO_BP<-paste0(z,"comunidad_GS_GO_BP_", nombre_comunidad)
+	nombre_GS_GO_BP<-paste0(z,"GO_BP_", nombre_comunidad)
 	write.table(resultados_GS_GO_BP_significativos, 
 	            file = nombre_GS_GO_BP, 
 	            sep ="\t", 
@@ -131,7 +131,7 @@ enrichmentator<-function(x,y,z){
 	resultados_GS_GO_CC_significativos<-resultados_GS_GO_CC[resultados_GS_GO_CC$Adjusted.Pvalue < 0.001,]
 	rownames(resultados_GS_GO_CC_significativos)<-Term(rownames(resultados_GS_GO_CC_significativos))
 	#escribir_tabla
-	nombre_GS_GO_CC<-paste0(z,"comunidad_GS_GO_CC_", nombre_comunidad)
+	nombre_GS_GO_CC<-paste0(z,"GO_CC_", nombre_comunidad)
 	write.table(resultados_GS_GO_CC_significativos, 
 	            file = nombre_GS_GO_CC, 
 	            sep ="\t", 

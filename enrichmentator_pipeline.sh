@@ -53,7 +53,8 @@ for map in $(ls $basename/MAPS/*.map)
 #	echo $mappathbase
        mkdir -p $basename/COMMUNITIES/$mapbase2 #mapbase2 is ISLAND name (ej pheno_I001)
        dr=$basename/COMMUNITIES/$mapbase2 # ej: prueba/COMMUNITIES/prueba_I001
-	ENRICHMENT_out=$basename/ENRICHMENT/$mapbase2
+       mkdir -p $basename/ENRICHMENT/$mapbase2
+       ENRICHMENT_out=$basename/ENRICHMENT/$mapbase2 #ej: prueba/ENRICHENT/prueba_I001
 ##usage Analisis_Infomap3.py map_file outdir prefix(island name)
        python lib/Analisis_Infomap3.py $map $dr/ $mapbase2
 	#Outputs: genelist files for each community, of the form pheno_I001_C001.txt
@@ -65,10 +66,10 @@ for map in $(ls $basename/MAPS/*.map)
 ##testing
       for comm in $(ls $dr/*.txt) 
       do
-	  echo $comm
-	  echo $mapbase2
-	  echo $dr
+	  #echo $comm
+	  #echo $mapbase2
+	  #echo $dr
 	  echo $ENRICHMENT_out
-	  Rscript lib/Enrichmentator.R  $comm $mapbase2 $ENRICHMENT_out
+	  Rscript lib/Enrichmentator.R  $comm $ENRICHMENT_out
       done       
 done
