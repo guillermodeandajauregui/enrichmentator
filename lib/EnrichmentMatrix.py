@@ -2,7 +2,7 @@ import sys
 import glob
 
 def EnrichmetMatriz(path):
-  dict = {};
+  dik = {};
   files=glob.glob(path)
   l = []
 
@@ -13,18 +13,23 @@ def EnrichmetMatriz(path):
       f = open(file, 'r')
       l.append(c[0])
       
+      title = True
+      cadena =  []
       for linea in f:
-	cadena = linea.split('\t')
-	if (cadena[0].strip('"')) in dict:
-	  dict[cadena[0].strip('"')].append((c[0].strip(),cadena[7].strip()))
-	else:
-	  dict[cadena[0].strip('"')] = [(c[0].strip(),cadena[7].strip())]
+          if title:
+              title = False
+              continue
+          cadena = linea.split('\t')
+      if cadena and (cadena[0].strip('"')) in dik:
+          dik[cadena[0].strip('"')].append((c[0].strip(),cadena[7].strip()))
+      elif cadena:
+          dik[cadena[0].strip('"')] = [(c[0].strip(),cadena[7].strip())]
       
       f.close()      
-      del dict['']
+#      del(dik['""'])
       l.sort()
 
-  return dict,l
+  return dik,l
 
 
 def FileMatrix(filename,diccionario,coms):
@@ -43,8 +48,8 @@ def FileMatrix(filename,diccionario,coms):
     M[k][0] = e
     for i in diccionario[e]:
       for j in PosComs:
-	if i[0] == j:
-	  M[k][PosComs[j]] = i[1]
+          if i[0] == j:
+              M[k][PosComs[j]] = i[1]
     k=k+1
     
   file = open(filename, 'w')
@@ -56,37 +61,26 @@ def FileMatrix(filename,diccionario,coms):
   
   
   
-directory = sys.argv[1]
-
+dr = sys.argv[1] #shaped as prueba/COMMUNITIES/prueba_I001 
+directory = dr
+basename = sys.argv[2]
+#basename = dr.split(sep = "/")[len(dr.split(sep = "/")) -1]
 #filename = sys.argv[2]
 #diccionario,coms = EnrichmetMatriz(path)
 #FileMatrix(filename,diccionario,coms)
 
-path = directory+'/comunidad_GS_GO_BP_*.csv'
+path = directory+'GOBP_*.csv'
 diccionario,coms = EnrichmetMatriz(path)
-FileMatrix(directory+'_GS_GO_BP.csv',diccionario,coms)
+FileMatrix(directory+basename+'_GOBP.csv',diccionario,coms)
 
-path = directory+'/comunidad_GS_GO_CC_*.csv'
+path = directory+'GOCC_*.csv'
 diccionario,coms = EnrichmetMatriz(path)
-FileMatrix(directory+'_GS_GO_CC.csv',diccionario,coms)
+FileMatrix(directory+basename+'_GOCC.csv',diccionario,coms)
 
-path = directory+'/comunidad_GS_GO_MF_*.csv'
+path = directory+'GOMF_*.csv'
 diccionario,coms = EnrichmetMatriz(path)
-FileMatrix(directory+'_GS_GO_MF.csv',diccionario,coms)
+FileMatrix(directory+basename+'_GOMF.csv',diccionario,coms)
 
-path = directory+'/comunidad_kegg_*.csv'
+path = directory+'KEGG_*.csv'
 diccionario,coms = EnrichmetMatriz(path)
-FileMatrix(directory+'_kegg.csv',diccionario,coms)
-
-  
-
-
-
-
-
-
-
-
-
-
-
+FileMatrix(directory+basename+'_KEGG.csv',diccionario,coms)
