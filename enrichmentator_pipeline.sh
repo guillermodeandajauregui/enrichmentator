@@ -63,13 +63,20 @@ for map in $(ls $basename/MAPS/*.map)
 		#Each row a comm. 
 
 #run the enrichment algorithms
-##testing
       for comm in $(ls $dr/*.txt) 
       do
 	  #echo $comm
 	  #echo $mapbase2
 	  #echo $dr
-	  echo $ENRICHMENT_out
-	  Rscript lib/Enrichmentator.R  $comm $ENRICHMENT_out
-      done       
+#	  echo $ENRICHMENT_out
+#	  Rscript lib/Enrichmentator.R  $comm $ENRICHMENT_out
+	  Rscript lib/Enrichmentator.R  $comm $basename/ENRICHMENT/$mapbase2/
+		#OUTPUT: FOUR files for each community analysed, 
+			#CAT_pheno_IOOX_C002.csv
+      done
+#Construct Enrichment Matrices, 
+##testing
+      echo "python"
+      python lib/EnrichmentMatrix.py $dr/ $mapbase2
+      echo "fin de python"
 done
