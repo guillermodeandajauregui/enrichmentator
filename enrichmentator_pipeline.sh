@@ -45,9 +45,9 @@ for map in $(ls $basename/MAPS/*.map)
        python lib/Analisis_Infomap3.py $map $dr/ $mapbase2
 #run the enrichment algorithms
 ##testing
-#      for j in $(ls $dr/*.txt) 
-#      do
-#	  echo $j
-#	  Rscript lib/Enrichmentator.R  $j
-#      done       
+      for j in $(ls $dr/*.txt) 
+      do
+	  echo $j
+	  Rscript lib/Enrichmentator.R  $j
+      done       
 done
