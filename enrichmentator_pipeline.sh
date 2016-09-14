@@ -11,6 +11,7 @@ echo $basename
 
 mkdir -p $basename/ISLANDS
 mkdir -p $basename/MAPS
+mkdir -p $basename/COMMUNITIES
 
 ##take SIF, output ISLANDS
 
@@ -22,6 +23,7 @@ cd $basename/ISLANDS
 #ls
 sh ../../lib/sed_pajek.sh 
 
+###Community detection phase
 ###Run infomap on ISLANDS IN sif[0]/ISLANDS
 cd ../../
 for net in $(ls $basename/ISLANDS/*.net); do
@@ -29,6 +31,19 @@ for net in $(ls $basename/ISLANDS/*.net); do
 	./lib/infomap/Infomap $net $basename/MAPS --map --silent
 done
 
-
-#for i in .net 
-#	Infomap
+### Enrichment phase
+####probar analisis infoMAP
+for map in $(ls $basename/MAPS/*.map)
+  do
+	   echo $map
+       mappathbase=$(echo $map | cut -d "." -f1 )
+       mapbase2=$(echo $mappathbase | cut -d "/" -f3) 
+       mapfile=$(echo $map | cut -d "/" -f3)
+       #echo $mappathbase
+       #echo $mapbase2
+       #echo $mapfile
+       mkdir -p $basename/COMMUNITIES/$mapbase2
+       dr=$basename/COMMUNITIES/$mapbase2
+       #cp $map $dir
+       python Analisis_Infomap2.py $map $dr/
+done
