@@ -77,6 +77,7 @@ for map in $(ls $basename/MAPS/*.map)
 #Construct Enrichment Matrices, 
 ##testing
       echo "python"
-      python lib/EnrichmentMatrix.py $dr/ $mapbase2
+      echo $ENRICHMENT_out $mapbase2
+      python lib/EnrichmentMatrix.py $ENRICHMENT_out $mapbase2
       echo "fin de python"
 done

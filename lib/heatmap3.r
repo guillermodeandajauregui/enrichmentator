@@ -7,19 +7,24 @@ DATA = args[1];
 # X=read.table("Archivo.csv", header=TRUE, sep =",")
 X=read.table(DATA, header=TRUE, sep ="\t");
 
-# Luego hay que definir la columna de nombres (columna 1 de su csv cargado en el objeto X) en un objeto que llamaré RN (de row names)
+# Luego hay que definir la columna de nombres 
+#(columna 1 de su csv cargado en el objeto X) 
+#en un objeto que llamaré RN (de row names)
 
 RN=X[,1];
 END = length(X[0,]) - 2;
 
-# Los datos numéricos de su matríz están en las columnas 2 a la 31, carguenlos en un objeto Y
+# Los datos numéricos de su matríz están en las columnas 2 a la 31, 
+#carguenlos en un objeto Y
 
 # Y = X[,2:31]
 Y=X[,2:END];
 
 Y = as.matrix(Y);
 
-# Pero en su excel pusieron p-values y nosotros queremos que a mayor significancia más intensidad de color, eso se logra con el -log10(p-value)
+# Pero en su excel pusieron p-values y nosotros queremos que a 
+#mayor significancia más intensidad de color, 
+#eso se logra con el -log10(p-value)
 
 Z=-log10(Y);
 

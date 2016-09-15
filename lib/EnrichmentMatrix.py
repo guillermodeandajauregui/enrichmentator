@@ -8,7 +8,9 @@ def EnrichmentMatrix(path):
   procs = set()
 
   for filename in files:
-      base_datos, fenotipo, isla, comunidad = filename.split('_')
+      splitpath = filename.split("/") #
+      filebasename = splitpath[len(splitpath)-1] #make sure to split only actual filenames, regardless of full path
+      base_datos, fenotipo, isla, comunidad = filebasename.split('_')
       comunidad = comunidad.split('.')[0]
       f = open(filename, 'r')
 
@@ -68,8 +70,8 @@ def SaveMatrix(filename, ematrix, coms, procs):
 
 
 
-dr = sys.argv[1] #shaped as prueba/COMMUNITIES/prueba_I001
-directory = dr
+dr = sys.argv[1] #shaped as prueba/COMMUNITIES/prueba_I001/
+directory = dr+"/"
 basename = sys.argv[2]
 #basename = dr.split(sep = "/")[len(dr.split(sep = "/")) -1]
 #filename = sys.argv[2]
