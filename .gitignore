@@ -1,0 +1,12 @@
+#ignore infomap build
+lib/infomap/build/
+lib/infomap/choco/
+lib/infomap/Infomap
+
+#test files
+prueba.sif
+prueba
+pruebas_enrichment_module
+
+#RHistory
+.Rhistory
