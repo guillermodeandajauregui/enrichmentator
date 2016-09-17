@@ -1,15 +1,14 @@
 # Primero hay que cargar los archivos csv a una tabla de R con su encabezado y todo
 
-#args <- commandArgs(trailingOnly = TRUE);
-#args<-"pruebas_enrichment_module/intento/gansoz_GOMF.csv"
-#args<-"pruebas_enrichment_module/intento/emptyframe.csv"
-args<- "pruebas_enrichment_module/prueba_I001/triphop_GOBP.csv"
+args <- commandArgs(trailingOnly = TRUE);
 DATA = args[1];
 
 # X=read.table("Archivo.csv", header=TRUE, sep =",")
 X=read.table(DATA, header=TRUE, sep ="\t", row.names = 1);
 Y = as.matrix(X)
 Z = -log10(Y) #mo color, mo statistical significance
+
+
 
 if(ncol(Z)==1){
   Z = cbind(Z,Z)

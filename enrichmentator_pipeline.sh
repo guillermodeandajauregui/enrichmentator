@@ -16,7 +16,7 @@ mkdir -p $basename/ISLANDS #where ISLAND files will be kept.
 mkdir -p $basename/MAPS    #where MAP files will be kept
 mkdir -p $basename/COMMUNITIES #where COMMUNITIES will be kept.
 mkdir -p $basename/ENRICHMENT #where ENRICHMENT data will be kept. 
-
+mkdir -p $basename/HEATMAPS
 ##take SIF, output ISLANDS
 	#$sif is a sif file 
 	#tamano is the min. size of island. 
@@ -69,7 +69,6 @@ for map in $(ls $basename/MAPS/*.map)
 	  #echo $mapbase2
 	  #echo $dr
 #	  echo $ENRICHMENT_out
-#	  Rscript lib/Enrichmentator.R  $comm $ENRICHMENT_out
 	  Rscript lib/Enrichmentator.R  $comm $basename/ENRICHMENT/$mapbase2/
 		#OUTPUT: FOUR files for each community analysed, 
 			#CAT_pheno_IOOX_C002.csv
@@ -80,4 +79,12 @@ for map in $(ls $basename/MAPS/*.map)
       echo $ENRICHMENT_out $mapbase2
       python lib/EnrichmentMatrix.py $ENRICHMENT_out $mapbase2
       echo "fin de python"
+      
+      echo $ENRICHMENT_out/$mapbase2'_GOBP.csv'
+      Rscript lib/heatmap4.r $ENRICHMENT_out/$mapbase2'_GOBP.csv'
+      Rscript lib/heatmap4.r $ENRICHMENT_out/$mapbase2'_GOCC.csv'
+      Rscript lib/heatmap4.r $ENRICHMENT_out/$mapbase2'_GOMF.csv'
+      Rscript lib/heatmap4.r $ENRICHMENT_out/$mapbase2'_KEGG.csv'
+      
+      mv *.pdf $basename/HEATMAPS
 done
