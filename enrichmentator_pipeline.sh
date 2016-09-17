@@ -5,18 +5,17 @@
 
 sif=$1 #sif file to be used. Of the shape gene interaction gene, tab or space separated. 
 tamano=$2 #size of islands to be considered for the analysis. 
-
 basename=$(echo $sif | cut -d "." -f1) #ideally, the basename of the sif file reflects the phenotype
 					#ie, "luminal", "cancer", etc. 
 echo $basename
 
 #make output folders
-
 mkdir -p $basename/ISLANDS #where ISLAND files will be kept. 
 mkdir -p $basename/MAPS    #where MAP files will be kept
 mkdir -p $basename/COMMUNITIES #where COMMUNITIES will be kept.
 mkdir -p $basename/ENRICHMENT #where ENRICHMENT data will be kept. 
-mkdir -p $basename/HEATMAPS
+mkdir -p $basename/HEATMAPS #HEATMAP RESULTS
+mkdir -p $basename/PROCESSMAPS #COMMUNITY-PROCESS MAP results
 ##take SIF, output ISLANDS
 	#$sif is a sif file 
 	#tamano is the min. size of island. 
@@ -80,11 +79,19 @@ for map in $(ls $basename/MAPS/*.map)
       python lib/EnrichmentMatrix.py $ENRICHMENT_out $mapbase2
       echo "fin de python"
       
-      echo $ENRICHMENT_out/$mapbase2'_GOBP.csv'
+      echo "GENERAR HEATMAPS"
       Rscript lib/heatmap4.r $ENRICHMENT_out/$mapbase2'_GOBP.csv'
       Rscript lib/heatmap4.r $ENRICHMENT_out/$mapbase2'_GOCC.csv'
       Rscript lib/heatmap4.r $ENRICHMENT_out/$mapbase2'_GOMF.csv'
       Rscript lib/heatmap4.r $ENRICHMENT_out/$mapbase2'_KEGG.csv'
       
-      mv *.pdf $basename/HEATMAPS
+      mv $ENRICHMENT_out/*.pdf $basename/HEATMAPS
+      
+      echo "GENERAR MAPAS COMUNIDAD PROCESO"
+      Rscript lib/processmap.r $ENRICHMENT_out/$mapbase2'_GOBP.csv'
+      Rscript lib/processmap.r $ENRICHMENT_out/$mapbase2'_GOCC.csv'
+      Rscript lib/processmap.r $ENRICHMENT_out/$mapbase2'_GOMF.csv'
+      Rscript lib/processmap.r $ENRICHMENT_out/$mapbase2'_KEGG.csv'
+      
+      mv $ENRICHMENT_out/*.procmap $basename/PROCESSMAPS
 done
