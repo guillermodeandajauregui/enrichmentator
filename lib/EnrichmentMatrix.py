@@ -12,6 +12,7 @@ def EnrichmentMatrix(path):
       filebasename = splitpath[len(splitpath)-1] #make sure to split only actual filenames, regardless of full path
       base_datos, fenotipo, isla, comunidad = filebasename.split('_')
       comunidad = comunidad.split('.')[0]
+      komunidad = fenotipo+"_"+isla+"_"+comunidad
       f = open(filename, 'r')
 
       title = True
@@ -26,11 +27,14 @@ def EnrichmentMatrix(path):
           adj_pvalue = adj_pvalue.rstrip()
 
           procs.add(proceso)
-          coms.add(comunidad)
+          #coms.add(comunidad)
+          coms.add(komunidad)
+          #coms.add(filebasename)
           if not proceso in ematrix:
                ematrix[proceso] = dict()
 
-          ematrix[proceso][comunidad] = adj_pvalue
+          #ematrix[proceso][comunidad] = adj_pvalue
+          ematrix[proceso][komunidad] = adj_pvalue
 
       f.close()
 
