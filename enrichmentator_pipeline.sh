@@ -88,10 +88,10 @@ for map in $(ls $basename/MAPS/*.map)
       mv $ENRICHMENT_out/*.pdf $basename/HEATMAPS
       
       echo "GENERAR MAPAS COMUNIDAD PROCESO"
-      Rscript lib/processmap.r $ENRICHMENT_out/$mapbase2'_GOBP.csv'
-      Rscript lib/processmap.r $ENRICHMENT_out/$mapbase2'_GOCC.csv'
-      Rscript lib/processmap.r $ENRICHMENT_out/$mapbase2'_GOMF.csv'
-      Rscript lib/processmap.r $ENRICHMENT_out/$mapbase2'_KEGG.csv'
+      Rscript lib/processmap.R $ENRICHMENT_out/$mapbase2'_GOBP.csv'
+      Rscript lib/processmap.R $ENRICHMENT_out/$mapbase2'_GOCC.csv'
+      Rscript lib/processmap.R $ENRICHMENT_out/$mapbase2'_GOMF.csv'
+      Rscript lib/processmap.R $ENRICHMENT_out/$mapbase2'_KEGG.csv'
       
       mv $ENRICHMENT_out/*.procmap $basename/PROCESSMAPS
 done
