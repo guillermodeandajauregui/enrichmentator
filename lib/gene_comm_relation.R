@@ -28,7 +28,7 @@ write.table(Com,
             sep = "\t")
 
 #######
-filename2 <- paste0(comname, ".commsize")
+filename2 <- paste0(comname, ".comsize")
 outfile2<- paste0(outdir, filename2)
 q<-paste(comname, length(Com$V1), sep = " ")
 write(q, file = outfile2)

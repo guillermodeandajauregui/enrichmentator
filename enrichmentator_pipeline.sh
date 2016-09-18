@@ -99,6 +99,17 @@ for map in $(ls $basename/MAPS/*.map)
       mv $ENRICHMENT_out/*.procmap $basename/PROCESSMAPS
       
       echo "TAMANOS DE PROCESOS ENRIQUECIDOS"
-      python lib/EnricedGenesetSizes.py $ENRICHMENT_out $mapbase2
-      mv $ENRICHMENT_out/*.procsize $basename/COMPLEMENTARYTABLES 
+      python lib/EnrichedGenesetSizes.py $ENRICHMENT_out $mapbase2
+      mv $ENRICHMENT_out/*.procsize $basename/COMPLEMENTARYTABLES
+
 done
+
+###Y escribir summaries de las tablas complementarias
+
+mkdir -p $basename/COMPLEMENTARYTABLES/SUMMARIES
+cat $basename/COMPLEMENTARYTABLES/*.gencom > $basename/COMPLEMENTARYTABLES/SUMMARIES/$basename.gencom
+cat $basename/COMPLEMENTARYTABLES/*.comsize > $basename/COMPLEMENTARYTABLES/SUMMARIES/$basename.comsize
+cat $basename/COMPLEMENTARYTABLES/*.procsize > $basename/COMPLEMENTARYTABLES/SUMMARIES/$basename.procsize
+
+
+
