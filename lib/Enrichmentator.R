@@ -22,5 +22,8 @@ path <- args[2]
 
 
 #print(file)
-enrichmentator(Com,name,path)
+
+if(length(Com)>=args[3]){
+  enrichmentator(Com,name,path)
+}
 #enrichmentator(Com,file)

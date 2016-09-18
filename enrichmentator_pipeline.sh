@@ -7,6 +7,7 @@ sif=$1 #sif file to be used. Of the shape gene interaction gene, tab or space se
 tamano=$2 #size of islands to be considered for the analysis. 
 basename=$(echo $sif | cut -d "." -f1) #ideally, the basename of the sif file reflects the phenotype
 					#ie, "luminal", "cancer", etc. 
+comsize=$3	#minimum size for a community to be enriched
 echo $basename
 
 #make output folders
@@ -68,7 +69,7 @@ for map in $(ls $basename/MAPS/*.map)
 	  #echo $mapbase2
 	  #echo $dr
 #	  echo $ENRICHMENT_out
-	  Rscript lib/Enrichmentator.R  $comm $basename/ENRICHMENT/$mapbase2/
+	  Rscript lib/Enrichmentator.R  $comm $basename/ENRICHMENT/$mapbase2/ $comsize
 		#OUTPUT: FOUR files for each community analysed, 
 			#CAT_pheno_IOOX_C002.csv
       done
