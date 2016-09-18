@@ -17,6 +17,7 @@ mkdir -p $basename/COMMUNITIES #where COMMUNITIES will be kept.
 mkdir -p $basename/ENRICHMENT #where ENRICHMENT data will be kept. 
 mkdir -p $basename/HEATMAPS #HEATMAP RESULTS
 mkdir -p $basename/PROCESSMAPS #COMMUNITY-PROCESS MAP results
+mkdir -p $basename/GENECOMMREL #genelists with community identifier attached AND community sizes 
 ##take SIF, output ISLANDS
 	#$sif is a sif file 
 	#tamano is the min. size of island. 
@@ -69,6 +70,7 @@ for map in $(ls $basename/MAPS/*.map)
 	  #echo $mapbase2
 	  #echo $dr
 #	  echo $ENRICHMENT_out
+	  Rscript lib/gene_comm_relation.R $comm $basename/GENECOMMREL/
 	  Rscript lib/Enrichmentator.R  $comm $basename/ENRICHMENT/$mapbase2/ $comsize
 		#OUTPUT: FOUR files for each community analysed, 
 			#CAT_pheno_IOOX_C002.csv
